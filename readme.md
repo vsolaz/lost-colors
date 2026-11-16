@@ -140,49 +140,14 @@ Keep these rules in mind for the rest of the GameDay:
 
 ## Step 3: Install the Python dependencies
 
-### Pin the MCP library version
+### Check the MCP library version
 
 The agent and the two MCP tool servers are written for version 1 of the `mcp`
 Python library. Version 2 renamed some of the classes they use, so if a runtime
 gets version 2, it crashes at startup with `ImportError: cannot import name
-'streamablehttp_client'` or `No module named 'mcp.server.fastmcp'`. Run the
-block for your terminal to limit `mcp` to version 1 in the runtimes'
-`requirements.txt` files. It is safe to run more than once.
-
-macOS / Linux:
-
-```bash
-python3 - <<'EOF'
-import re
-pins = {
-    "agent/requirements.txt": "mcp>=1.23.0,<2",
-    "tools/bedrock-data-automation/requirements.txt": "mcp[cli]>=1.23.0,<2",
-    "tools/location-service/requirements.txt": "mcp[cli]>=1.23.0,<2",
-}
-for path, pin in pins.items():
-    lines = [l for l in open(path).read().splitlines() if not re.match(r"\s*mcp(\[|[<>=!~ ]|$)", l)]
-    open(path, "w").write("\n".join(lines + [pin]) + "\n")
-    print(path, "->", pin)
-EOF
-```
-
-Windows PowerShell:
-
-```powershell
-$pins = [ordered]@{
-    "agent\requirements.txt"                         = "mcp>=1.23.0,<2"
-    "tools\bedrock-data-automation\requirements.txt" = "mcp[cli]>=1.23.0,<2"
-    "tools\location-service\requirements.txt"        = "mcp[cli]>=1.23.0,<2"
-}
-foreach ($path in $pins.Keys) {
-    $lines = @(Get-Content $path | Where-Object { $_ -notmatch '^\s*mcp(\[|[<>=!~ ]|$)' })
-    Set-Content $path ($lines + $pins[$path]) -Encoding ascii
-    Write-Host "$path -> $($pins[$path])"
-}
-```
-
-Each of the three files must now contain exactly one `mcp` line ending in `<2`.
-Check with:
+'streamablehttp_client'` or `No module named 'mcp.server.fastmcp'`. The
+runtimes' `requirements.txt` files already limit `mcp` to version 1. Check that
+each of the three files has exactly one `mcp` line ending in `<2`:
 
 ```bash
 grep -H "^mcp" agent/requirements.txt tools/*/requirements.txt
@@ -190,8 +155,7 @@ grep -H "^mcp" agent/requirements.txt tools/*/requirements.txt
 ```
 
 These files are installed inside the runtime containers during
-`agentcore deploy` (Step 8). If you already deployed before pinning, run
-`agentcore deploy --yes` again.
+`agentcore deploy` (Step 8). Do not change the `mcp` lines.
 
 ### Create the virtual environment
 
@@ -907,7 +871,7 @@ to 60 seconds.
 | `no such file or directory` when a command contains `<...>` | Text in `<...>` is a placeholder. Replace it, including the `<` and `>`, with your own value. |
 | `agentcore invoke` says `An error occurred when starting the runtime` | The runtime crashed at startup. Read its logs with `agentcore runtime logs --id "$AGENT_RUNTIME_ID" --since 30m` (PowerShell: `--id $env:AGENT_RUNTIME_ID`) and look at the last error. The next two rows cover the common ones. |
 | The runtime logs show `SyntaxError` in `multimodal_data_agent.py` | Your code edit broke the Python syntax, often a prompt with double quotes inside `"..."`. Use triple quotes as in Step 10, check with `python3 -m py_compile agent/multimodal_data_agent.py`, then redeploy. |
-| The runtime logs show `cannot import name 'streamablehttp_client'` or `No module named 'mcp.server.fastmcp'` | The `mcp` version is not pinned. Run the pin block (Step 3), then `agentcore deploy --yes`. |
+| The runtime logs show `cannot import name 'streamablehttp_client'` or `No module named 'mcp.server.fastmcp'` | The `mcp` version is not pinned. Restore the `mcp` lines ending in `<2` in the three runtime `requirements.txt` files (Step 3), then `agentcore deploy --yes`. |
 | `agentcore deploy` fails validation | Check that no `YOUR_` placeholders are left in `agentcore/agentcore.json` (Step 7). |
 | The tools reject requests with an authorization error | Check that `agentcore/agentcore.json` uses the `gateway-to-runtime` User Pool ID and Client ID, then run `agentcore deploy` again. |
 | Creating an MCP server target fails with `returned HTTP 404 to the initialize handshake` | The runtime URL contains the wrong account ID. Paste your Workshop Studio credentials, paste the runtime variables block (Step 8) again and regenerate the URL (Step 11). |

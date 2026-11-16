@@ -3,4 +3,5 @@ strands-agents-tools
 uv
 boto3
 bedrock-agentcore==1.22.0
+mcp>=1.23.0,<2
 Pillow
