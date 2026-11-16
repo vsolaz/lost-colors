@@ -42,6 +42,12 @@ You work in three places:
 Boxes that start with **Switch to the GameDay console** or **Switch to the AWS
 console** tell you when to change windows and what to do there.
 
+**Tip: copy commands with one click.** When you open this folder in Kiro, accept
+the suggestion to install the recommended extension (Markdown Code Copy Button).
+Then open this readme in preview with `Cmd+Shift+V` (Windows/Linux:
+`Ctrl+Shift+V`): every command box gets a copy button in its top-right corner.
+Copying instead of typing avoids most mistakes.
+
 | GameDay task | Readme step | What you submit |
 |---|---|---|
 | Task 1, Subtask A: AgentCore Runtime | Step 8 | The runtime ID of `multimodal_data_agent` |
