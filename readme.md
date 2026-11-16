@@ -731,8 +731,14 @@ Then deploy and test:
 
 ```bash
 agentcore deploy --yes
-agentcore invoke --runtime multimodal_data_agent --payload '{"prompt": "Which tools do you have?"}'
+agentcore invoke --runtime multimodal_data_agent --payload '{"prompt": "Which tools do you have?"}' \
+  | python3 -c 'import sys,json; [print(json.loads(l[5:]), end="", flush=True) for l in sys.stdin if l.startswith("data:")]'; echo
 ```
+
+The agent streams its answer in small pieces (`data: "Here"`, `data: "'s"`,
+...). The `python3 -c` part joins them into readable text. Without it you see
+the raw stream, which is also fine. On Windows, run the `agentcore invoke`
+part on its own.
 
 The agent now answers instead of returning the `ValidationException`. It lists
 the tools of every Gateway target you have added so far; after Step 11 that is
@@ -877,10 +883,12 @@ shows `READY` before you submit it.
 > or the Gateway ID. If you added a dummy target in Step 9, you can delete it
 > now.
 
-Check that the agent sees all the tools:
+Check that the agent sees all the tools (the `python3 -c` part joins the
+streamed answer, as in Step 10):
 
 ```bash
-agentcore invoke --runtime multimodal_data_agent --payload '{"prompt": "Which tools do you have?"}'
+agentcore invoke --runtime multimodal_data_agent --payload '{"prompt": "Which tools do you have?"}' \
+  | python3 -c 'import sys,json; [print(json.loads(l[5:]), end="", flush=True) for l in sys.stdin if l.startswith("data:")]'; echo
 ```
 
 ## Step 12: Run the chat frontend and investigate
