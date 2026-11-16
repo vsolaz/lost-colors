@@ -807,8 +807,10 @@ functions yet.
 
 > **Switch to the AWS console.** In the same AWS console you opened from
 > Workshop Studio, type `IAM` in the search bar at the top and open **IAM**.
-> Then go to **Roles**, search for the role name printed as `Gateway role`
-> above and open it.
+> Then go to **Roles** and search for `AmazonBedrockAgentCoreGatewayDefaultServiceRole`.
+> The full name ends with a number, for example
+> `AmazonBedrockAgentCoreGatewayDefaultServiceRole1794852061752`, and must match
+> the name printed as `Gateway role` above. Open that role.
 
 In the role, choose **Add permissions > Create inline policy > JSON**, and
 paste this policy. Replace the `Resource` with your `Flight Lambda` ARN.
