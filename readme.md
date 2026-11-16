@@ -568,6 +568,16 @@ deployment has not finished, failed, or the terminal is using the wrong
 credentials. Check `aws sts get-caller-identity` and the `agentcore deploy`
 output, then paste the block again.
 
+> **Switch to the GameDay console (Task 1, Subtask A).** You can submit your
+> first answer now. In the GameDay console, open the **The Legend of Lost
+> Colors** quest and go to Task 1, Subtask A. Submit the value of
+> `AGENT_RUNTIME_ID` (`echo "$AGENT_RUNTIME_ID"`; PowerShell:
+> `$env:AGENT_RUNTIME_ID`). It looks like
+> `LostColors_multimodal_data_agent-AbCdEf1234`. Submit the ID, not the ARN.
+> If the answer is not accepted, wait until
+> `agentcore runtime get --id "$AGENT_RUNTIME_ID" --json` shows
+> `"status": "READY"` and submit again. Then come back here and continue.
+
 | Variable | Contains |
 |---|---|
 | `AGENT_RUNTIME_ID`, `AGENT_RUNTIME_ARN` | The `multimodal_data_agent` runtime |
@@ -591,12 +601,6 @@ agentcore runtime get --id "$AGENT_RUNTIME_ID" --json
 ```
 
 Use `"$BDA_RUNTIME_ID"` or `"$LOCATION_RUNTIME_ID"` for the tool runtimes.
-
-> **Switch to the GameDay console (Task 1, Subtask A).** When `agentcore runtime
-> get` shows `"status": "READY"` for the agent, submit the value of
-> `AGENT_RUNTIME_ID` (`echo "$AGENT_RUNTIME_ID"`; PowerShell:
-> `$env:AGENT_RUNTIME_ID`). It looks like
-> `LostColors_multimodal_data_agent-AbCdEf1234`. Submit the ID, not the ARN.
 
 Test the agent runtime:
 
