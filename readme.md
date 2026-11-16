@@ -62,17 +62,52 @@ after the Step 8 one.
 
 ## Step 1: Install the required tools
 
-You need these tools on your computer. If you already have them, run the
-version check at the end of this step and move on.
+You need these tools on your computer. If you already have Python and Node.js,
+you can keep them, but install the latest AWS CLI in every case. Then run the
+version check at the end of this step.
 
 | Tool | Minimum version | Used for | Download |
 |---|---|---|---|
 | Python | 3.10 | Setup scripts and the agent code | <https://www.python.org/downloads/> |
 | Node.js | 20.12 | Runs the AgentCore CLI | <https://nodejs.org/> (pick the LTS version) |
-| AWS CLI | 2.x | Talking to your AWS account | <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html> |
+| AWS CLI | Latest version (see below) | Talking to your AWS account | <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html> |
 
 You do not need Docker. The agent containers are built in your AWS account
 during deployment.
+
+### Install the latest AWS CLI (required, even if you already have it)
+
+The quest uses `aws bedrock-agentcore-control` commands, which older AWS CLI
+versions do not have. Install the latest version now, even if `aws` already
+works on your computer. Installing over an existing AWS CLI updates it and keeps
+your configuration.
+
+macOS:
+
+```bash
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
+```
+
+Linux (x86_64; on ARM use `awscli-exe-linux-aarch64.zip`):
+
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip -q awscliv2.zip
+sudo ./aws/install --update
+```
+
+Windows (PowerShell):
+
+```powershell
+msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
+```
+
+If you installed the AWS CLI with Homebrew, pip or another package manager,
+use the commands above anyway, then run `type -a aws` (Windows: `where.exe aws`)
+and make sure the first result is the version you just installed.
+
+### Install the AgentCore CLI
 
 After installing Node.js, install the AgentCore CLI:
 
@@ -90,8 +125,13 @@ Close and reopen your terminal, then check that everything is installed:
 python3 --version     # Windows: python --version
 node --version        # must be v20.12 or newer
 aws --version
+aws bedrock-agentcore-control help > /dev/null && echo "AWS CLI OK"   # Windows: aws bedrock-agentcore-control help
 agentcore --version   # must print 1.0.1
 ```
+
+If the AWS CLI check prints `Invalid choice` instead of `AWS CLI OK`, your
+terminal is still using an old AWS CLI. Close and reopen the terminal; if it
+still fails, run the install commands above again.
 
 If `agentcore --version` reports `No such option: --version`, your terminal is
 finding the old Python version of the AgentCore CLI. Remove only the old
