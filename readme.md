@@ -42,10 +42,19 @@ You work in three places:
 Boxes that start with **Switch to the GameDay console** or **Switch to the AWS
 console** tell you when to change windows and what to do there.
 
-**Tip: copy commands with one click.** When you open this folder in Kiro, accept
-the suggestion to install the recommended extension (Markdown Code Copy Button).
+**Tip: copy commands with one click.** Install the Markdown Code Copy Button
+extension in Kiro by running this in your terminal:
+
+```bash
+kiro --install-extension barnim.markdown-code-copy-button
+```
+
+If your terminal says `kiro: command not found`, install it from Kiro instead:
+open the Extensions view (`Cmd+Shift+X`, Windows/Linux: `Ctrl+Shift+X`), search
+for `barnim.markdown-code-copy-button` and click **Install**.
+
 Then open this readme in preview with `Cmd+Shift+V` (Windows/Linux:
-`Ctrl+Shift+V`): every command box gets a copy button in its top-right corner.
+`Ctrl+Shift+V`). Every command box gets a copy button in its top-right corner.
 Copying instead of typing avoids most mistakes.
 
 | GameDay task | Readme step | What you submit |
