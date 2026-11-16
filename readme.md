@@ -803,9 +803,15 @@ It answers only one tool name, `get_flights`, and it needs two inputs:
 
 **1. Allow the Gateway to call the Lambda function.** A Lambda target uses the
 Gateway's IAM service role instead of OAuth, and that role cannot invoke Lambda
-functions yet. In **IAM > Roles**, open the role printed as `Gateway role`
-above, choose **Add permissions > Create inline policy > JSON**, and paste this
-policy. Replace the `Resource` with your `Flight Lambda` ARN.
+functions yet.
+
+> **Switch to the AWS console.** In the same AWS console you opened from
+> Workshop Studio, type `IAM` in the search bar at the top and open **IAM**.
+> Then go to **Roles**, search for the role name printed as `Gateway role`
+> above and open it.
+
+In the role, choose **Add permissions > Create inline policy > JSON**, and
+paste this policy. Replace the `Resource` with your `Flight Lambda` ARN.
 
 ```json
 {
